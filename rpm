@@ -1,0 +1,1 @@
+alias rpm-query-all-tags='rpm --queryformat "$( for t in $( rpm --querytags ) ; do echo -n "$t=%{$t}\\n" ; done )" -q'
