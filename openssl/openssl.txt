@@ -1,0 +1,120 @@
+RSA Private Key
+---------------
+
+(typically a *.key file)
+
+# Generate an RSA key (1024 bits)
+openssl genrsa 1024
+
+# Get just the key
+openssl rsa -in foo.key -passin ....
+
+# Show in hex-dump form
+openssl rsa -in foo.key -passin .... -noout -text
+
+# Just show the modulus
+openssl rsa -in foo.key -passin .... -noout -modulus
+
+# Hex-dump form but using asn1parse
+openssl rsa -in foo.key -passin .... | openssl asn1parse -i
+
+Public data:
+  modulus
+  publicExponent
+Private data:
+  privateExponent
+  prime1
+  prime2
+  exponent1
+  exponent2
+  coefficient
+
+# Turn private key into public
+openssl rsa -in foo.key -passin ... -pubout
+
+# Display the public key
+openssl rsa -in foo.key -passin ... -pubout | openssl rsa -pubin -text -noout
+
+
+
+X509 Certificate
+----------------
+
+(typically a *.crt or *.pem file)
+
+# Just get the cert
+openssl x509 -in foo.crt 
+
+# Show in human-readable form
+openssl x509 -in foo.crt -noout -text
+
+# Examine using asn1parse
+openssl x509 -in stag.crt | openssl asn1parse -i | perl -pe 's/: ( *)/: $1$1$1$1/'
+
+# Extract the public key
+openssl x509 -in stag.crt -noout -pubkey
+
+# Verifying a cert against another
+# using "openssl verify"
+openssl verify -CAfile ca.crt stag.crt
+
+# Verifying a cert against another
+# Checking the signature, manually
+
+# find the signature:
+rachel@dudley sky-keys$ openssl x509 -in stag.crt | openssl asn1parse -i | perl -pe 's/: ( *)/: $1$1$1$1/' | tail -5
+  926:d=5  hl=2 l=   4 prim:                     OCTET STRING      [HEX DUMP]:030205A0
+  932:d=1  hl=2 l=  13 cons:     SEQUENCE
+  934:d=2  hl=2 l=   9 prim:         OBJECT            :sha1WithRSAEncryption
+  945:d=2  hl=2 l=   0 prim:         NULL
+  947:d=1  hl=3 l= 129 prim:     BIT STRING
+rachel@dudley sky-keys$
+
+# extract the signature:
+openssl x509 -in stag.crt | openssl asn1parse -noout -strparse 947 -out stag-crt.sig
+
+asn1parse "strparse" note: if outputting bit strings etc, output to stdout is
+disabled by default.  Use "-out FILE" to save to file.  "-noout -out
+/dev/stdout" forces standard output.
+
+# Verify the signature against the signing certificate's public key, and
+# display details:
+openssl rsautl -in stag-crt.sig -verify -inkey <( openssl x509 -in ca.crt -pubkey -noout ) -pubin -asn1parse
+
+# Show what the digest of the cert actually is (should match previous step):
+# (assuming sha1)
+openssl x509 -in stag.crt | openssl asn1parse -strparse 4 -noout -out /dev/stdout | openssl sha1
+
+
+
+RSA Operations
+--------------
+
+# Sign something then verify it again
+echo hello | openssl rsautl -sign -inkey stag.key | openssl rsautl -verify -inkey stag.crt -certin
+
+# same thing, but verify with public key
+echo hello | openssl rsautl -sign -inkey stag.key | openssl rsautl -verify -inkey <( openssl rsa -in stag.key -pubout ) -pubin
+
+# same thing, but verify using public key from cert
+echo hello | openssl rsautl -sign -inkey stag.key | openssl rsautl -verify -inkey stag.key
+
+# Encrypt something then decrypt it again
+echo hello | openssl rsautl -inkey stag.key -encrypt | openssl rsautl -inkey stag.key -decrypt
+
+
+
+Hash signing and verification
+-----------------------------
+
+# Sign the sha1 digest of some file, then verify it again
+openssl sha1 -prverify stag.key -signature <( openssl sha1 < ~/du.log -sign stag.key ) < ~/du.log
+
+
+
+openssl rsautl only seems to be able to sign using one key, and verify against
+one key.  Last one specified wins:
+
+openssl dgst -sha1 -sign stag.key -out foo.sig /file/to/sign.dat
+openssl dgst -signature foo.sig -verify stag-pubkey.pem /file/to/sign.dat
+
