@@ -1,0 +1,9 @@
+
+./generate-templates -s src/component -d . -r component
+./generate-templates -s src/resource  -d . -r resource
+
+vimdiff <( with-aws live aws cloudformation get-template --stack-name IntModavFbdMdjResources | jq -M .TemplateBody | json-reformat ) <( json-reformat < template-resource.json )
+
+with-aws live aws cloudformation update-stack --stack-name IntModavFbdMdjResources --template-body "$( cat template-r.json )"
+
+with-aws live aws cloudformation describe-stacks --stack-name IntModavFbdMdjResources | jq -r .Stacks[0].StackStatus
