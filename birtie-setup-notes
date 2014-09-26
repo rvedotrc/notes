@@ -1,0 +1,22 @@
+Ununtu 14.04 LTS live usb install
+Share with Windows 7
+
+rachel@pc-e011878:~$ cat /etc/apt/apt.conf.d/10reith
+Acquire::http::proxy "http://www-cache.reith.bbc.co.uk:80";
+Acquire::https::proxy "http://www-cache.reith.bbc.co.uk:80";
+
+sudo apt-get update
+
+# shellshocked
+sudo apt-get install bash
+
+sudo apt-get install vim
+sudo apt-get install openssh-server
+
+/etc/dhcp/dhclient.conf :
+send host-name "pc-e011878.national.core.bbc.co.uk";
+send fqdn.fqdn "pc-e011878.national.core.bbc.co.uk";
+send fqdn.server-update on;
+
+sudo apt-get -f dist-upgrade
+
