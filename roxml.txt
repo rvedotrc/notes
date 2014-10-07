@@ -1,0 +1,28 @@
+
+
+xml_name NAME
+sets the element name of this class
+(what tag_name returns)
+defaults to convention(basename(class)) # pseudocode
+where convention is:
+  xml_convention(if set) otherwise :downcase
+xml_convention can be something to_proc_able or a block
+
+
+xml_namespace N
+xml_namespaces :sym => href, [...]
+ replaces any previous namespaces
+used by ???
+
+
+
+:from => XPATH or :content (==".") or :attr (=="@theattr")
+
+:in => wrapper element
+:else => default
+:required
+:frozen
+:cdata
+:to_xml
+:namespace false (no namespace)
+:namespace STR (set namespace)

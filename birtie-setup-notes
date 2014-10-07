@@ -11,6 +11,7 @@ sudo apt-get update
 sudo apt-get install bash
 
 sudo apt-get install vim
+sudo update-alternatives --config editor
 sudo apt-get install openssh-server
 
 /etc/dhcp/dhclient.conf :
@@ -19,4 +20,39 @@ send fqdn.fqdn "pc-e011878.national.core.bbc.co.uk";
 send fqdn.server-update on;
 
 sudo apt-get -f dist-upgrade
+
+sudo apt-get install ntp
+sudoedit /etc/ntp.conf
+server ntp0.reith.bbc.co.uk iburst
+server ntp1.reith.bbc.co.uk iburst
+
+
+#### TODO ####
+
+unattended-upgrades
+
+vpn in / vpn out
+
+minimal mail:
+exim4 mailx .forward aliases
+
+encfs - somewhere to store secrets
+
+mail server:
+exim4 procmail getmail4 mutt
+various configs and scripts
+adlookup
+adexpand
+
+web server
+including staff.cgi
+
+git server
+
+cosmos2splunk
+
+puff
+
+reflecting-pool
+
 

@@ -1,0 +1,57 @@
+j mvn clean install
+j mvn clean install -DskipTests -Dmaven.test.skip=true
+export SERVER_ENV=sandbox
+j mvn -o -f *-war/pom.xml jetty:run
+time j r with-cwd *-test/cucumber/ bundle exec cucumber
+
+networksetup -setsocksfirewallproxystate Wi-Fi off
+networksetup -setsocksfirewallproxystate Wi-Fi on
+
+git update-ref refs/heads/master `git rev-parse refs/remotes/trunk` `git rev-parse refs/heads/master`
+
+mvn dependency:sources
+mvn dependency:resolve -Dclassifier=javadoc
+
+
+Questions
+
+How to arrange for view-source to work?
+
+
+MDJ notes:
+	s3:
+		uri is s3:X<key>
+			where X is assumed to be a slash
+		supports a single bucket
+		supports gzip (on or off for whole mdj instance)
+		supports encryption (key or not for whole mdj instance)
+	neufs:
+		uri is neufs:/<path relative to neufs root>
+		read only
+	delta:
+		uri is delta://borghostname?/path...??
+
+
+
+Attaching to a running process
+------------------------------
+
+export MAVEN_OPTS="-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,address=5005,server=y,suspend=n"
+env SERVER_ENV=component-test ./run
+jvm is now running and listening on port 5005
+
+In intellij:
+
+Run, Edit Configurations. Add.  Base on "Remote".  Check port is 5005.
+Set breakpoints.
+"Debug" (ctrl-D)
+Should say: Connected to the target VM, address: 'localhost:5005', transport: 'socket'
+
+Now run something which hits the breakpoint.  e.g.
+export NO_START_UNDER_TEST=1
+./test
+
+Of course if you're running a cucumber test you'll need to make sure it'll
+wait for the JVM, which might pause for a long time - increase the test
+timeouts.
+
