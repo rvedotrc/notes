@@ -1,7 +1,5 @@
 package uk.org.rve.log4jtest;
 
-import org.apache.log4j.spi.RootLogger;
-import org.apache.log4j.xml.DOMConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
