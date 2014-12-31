@@ -118,3 +118,21 @@ one key.  Last one specified wins:
 openssl dgst -sha1 -sign stag.key -out foo.sig /file/to/sign.dat
 openssl dgst -signature foo.sig -verify stag-pubkey.pem /file/to/sign.dat
 
+
+
+
+
+
+Elliptic Curve
+
+openssl ecparam -list_curves
+openssl ecparam  -name c2pnb304w1 -genkey | openssl ec -out ./ec256-aes128.pem -aes128
+
+
+# Generate a request
+openssl req -new
+# self-sign it
+openssl req -x509
+# Generate and self-sign together
+openssl req -new -x509
+

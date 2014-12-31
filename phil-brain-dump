@@ -1,0 +1,74 @@
+=============
+
+subs archive
+
+stl/onair.(stl|STL|Stl|...)
+ttml/vpid.xml
+
+as converted by r&d script
+
+onairid.<foo>
+
+subverter never does rights lookup
+
+r&d have rights to subs archive
+want notification
+
+=============
+
+ad
+
+wav files to apiary
+not being used
+uploaded + not used
+
+contain two tracks: mono audio track + dip and pan control track
+NOT downmixed, NO original audio
+
+r&d access
+
+TODO add to diagram
+
+ask for dubbed audio described profile from gti
+
+ccms perform audio downmix
+l+r non-ad
+l+r ad
+
+elemental profile says "pick tracks 3+4" for example.
+
+currently fixed, may need to become dynamic
+
+=======
+
+subs
+ultimately move to different dist format
+
+2017, move to ebu format (position, colour, etc)
+
+======
+
+
+paulette crack for building AD mami request
+published with the non-AD vpid
+
+nigel meggett - bbc subtitles king!
+
+ebu tt - to archive
+ebu td - distribution variant
+
+========
+
+gti webdav
+
+postproc scripts, dogs,
+
+========
+
+fred
+
+no crop, trim data
+no source resolution
+
+
+

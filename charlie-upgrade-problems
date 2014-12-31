@@ -1,0 +1,25 @@
+
+
+
+
+
+eth1 didn't exist on boot
+(unplug / plug required)
+
+therefore? systemd locked
+kernel needs "systemd.debug-shell" arg
+
+bind9 started even though not started in any runlevel
+
+
+/etc/network/if-up.d/local-exim4 - commented out the exim4 startup
+even though /something/ seemed to have started exim4
+(runlevel 2,3?)
+
+firefox not using proxy
+(but chrome is)
+
+
+exim.org no longer pings, just to confuse me!
+
+
