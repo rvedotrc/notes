@@ -55,3 +55,35 @@ Of course if you're running a cucumber test you'll need to make sure it'll
 wait for the JVM, which might pause for a long time - increase the test
 timeouts.
 
+
+
+mvn help:help
+mvn dependency:help
+
+mvn dependency:tree
+mvn dependency:tree -Dverbose=true
+
+mvn dependency:analyze - look for undeclared transitive dependencies
+
+mvn help:effective-pom - show effective pom
+
+pom - can add/override, but never subtract
+
+??? how to see effective pom, and see where each thing comes from?
+
+
+
+
+
+Should it be good practice always to fix dependency:analyze problems?
+
+tool for visual dependency resolution (graph)?
+
+
+
+different classpaths for different classes???
+
+compile <= runtime <= test
+"provided" - in compile, but not runtime (reasons unclear)
+
+

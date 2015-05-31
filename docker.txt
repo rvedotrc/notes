@@ -1,0 +1,23 @@
+# vi: set ts=40 et :
+
+docker images                           # nothing
+docker pull ubuntu                      # download ubuntu locally
+docker images                           # ubuntu available
+docker images --no-trunc                # see full ids
+
+images have ids - 64-char hex
+
+docker run -it ubuntu bash              # create + start container from "ubuntu" image, start bash, attach
+docker ps                               # see it running. some container id
+docker ps --no-trunc                    # see full ids
+
+containers have ids - 64-char hex, usually shown as 12
+
+docker attach <container>               # attach. Multiple host-terms can attach to the same container. ^P ^Q to detach
+docker stop <container>
+
+
+
+~/.ssh/config
+Host *,docker
+ProxyCommand >&1; h="%h"; exec nc $( docker inspect ${h/,docker/} | jq -r .[0].NetworkSettings.IPAddress ) 22
