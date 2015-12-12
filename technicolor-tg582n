@@ -1,0 +1,350 @@
+Notes on the Technicolor TG582n routers
+
+ip iflist
+ip iplist
+ip rtlist
+eth iflist
+eth bridge iflist
+
+dhcp server config state disabled
+dhcp serverv6 config state disabled
+ip ipadd intf LocalNetwork addr 192.168.2.2 netmask 255.255.255.0
+wireless mssid ifconfig ssid_id 0 ssid "seednet 2" secmode wpa-psk WPAPSKkey "..."
+ip ipconfig addr 192.168.2.2 primary enabled preferred enabled
+
+atm
+config
+connection
+contentsharing
+cwmp
+debug
+dhcp
+dns
+download
+dsd
+dyndns
+env
+eth
+	eth a
+	eth bridge
+		eth bridge a
+		eth bridge add
+		eth bridge clear
+		eth bridge config
+		eth bridge delete
+		eth bridge dynvlan
+		eth bridge e
+		eth bridge filter
+		eth bridge flush
+		eth bridge ifadd
+		eth bridge ifattach
+		eth bridge ifconfig
+		eth bridge ifdelete
+		eth bridge ifdetach
+		eth bridge ifflush
+		eth bridge iflist
+		eth bridge igmpsnooping
+		eth bridge ippriomap
+		eth bridge ippriomapreset
+		eth bridge list
+		eth bridge macadd
+		eth bridge macdelete
+		eth bridge maclist
+		eth bridge n
+		eth bridge o
+		eth bridge r
+		eth bridge rule
+		eth bridge select
+		eth bridge unknownvlan
+		eth bridge vlan
+		eth bridge x
+		eth bridge xtratag
+	eth device
+	eth e
+	eth filter
+	eth flush
+	eth ifadd
+	eth ifattach
+	eth ifconfig
+	eth ifdelete
+	eth ifdetach
+	eth iflist
+	eth n
+	eth o
+	eth r
+	eth switch
+	eth vlan
+	eth x
+
+expr
+		{Administrator}=>expr list
+		name                                                         type    use flags expression
+		----------------------------------------------------------------------------------------------------------------------
+		wan                                                          intf       0      1. intfgroup=0
+		local                                                        intf       0      1. intfgroup=1
+		lan                                                          intf       1      1. intfgroup=2
+		tunnel                                                       intf       0      1. intfgroup=3
+		dmz                                                          intf       0      1. intfgroup=4
+		guest                                                        intf       0      1. intfgroup=5
+		private                                                      ip         0      1. addr=10.0.0.0/8
+											       2. addr=172.[16-31].*.*
+											       3. addr=192.168.1.0/24
+		ssdp_ip                                                      ip         0      1. addr=239.255.255.250
+		mdap_ip                                                      ip         0      1. addr=224.0.0.103
+		icmp                                                         serv       1      1. proto=1
+		igmp                                                         serv       1      1. proto=2
+		ftp                                                          serv       0      1. proto=6 dst-prt=21
+		telnet                                                       serv       1      1. proto=6 dst-prt=23
+		http                                                         serv       1      1. proto=6 dst-prt=80
+		httpproxy                                                    serv       1      1. proto=6 dst-prt=8080
+		https                                                        serv       1      1. proto=6 dst-prt=443
+		RPC                                                          serv       0      1. proto=6 dst-prt=135
+		NBT                                                          serv       0      1. proto=17 dst-prt=137
+											       2. proto=17 dst-prt=138
+											       3. proto=6 dst-prt=139
+		SMB                                                          serv       0      1. proto=6 dst-prt=445
+		imap                                                         serv       1      1. proto=6 dst-prt=143
+		imap3                                                        serv       1      1. proto=6 dst-prt=220
+		imap4-ssl                                                    serv       1      1. proto=6 dst-prt=585
+		imaps                                                        serv       1      1. proto=6 dst-prt=993
+		pop2                                                         serv       1      1. proto=6 dst-prt=109
+		pop3                                                         serv       1      1. proto=6 dst-prt=110
+		pop3s                                                        serv       1      1. proto=6 dst-prt=995
+		smtp                                                         serv       1      1. proto=6 dst-prt=25
+		ssh                                                          serv       0      1. proto=6 dst-prt=22
+		dns                                                          serv       1      1. proto=6 dst-prt=53
+											       2. proto=17 dst-prt=53
+		nntp                                                         serv       0      1. proto=6 dst-prt=119
+		ipsec                                                        serv       0      1. proto=51
+											       2. proto=50
+											       3. proto=17 dst-prt=500
+											       4. proto=17 dst-prt=4500
+		esp                                                          serv       1      1. proto=50
+		ah                                                           serv       1      1. proto=51
+		ike                                                          serv       1      1. proto=17 dst-prt=500
+		sip                                                          serv       1      1. proto=17 dst-prt=5060
+											       2. proto=6 dst-prt=5060
+		h323                                                         serv       1      1. proto=6 dst-prt=1720
+											       2. proto=17 dst-prt=1720
+											       3. proto=6 dst-prt=1718
+											       4. proto=17 dst-prt=1718
+											       5. proto=6 dst-prt=1719
+											       6. proto=17 dst-prt=1719
+		dhcp                                                         serv       0      1. proto=17 dst-prt=68
+											       2. proto=17 dst-prt=67
+		rtsp                                                         serv       1      1. proto=17 dst-prt=554
+											       2. proto=6 dst-prt=554
+		ssdp_serv                                                    serv       0      1. proto=17 dst-prt=1900
+		mdap_serv                                                    serv       0      1. proto=17 dst-prt=3235
+		syslog                                                       serv       0      1. proto=17 dst-prt=514
+		icmpv6                                                       serv       1      1. proto=58
+
+firewall
+			{Administrator}=>firewall rule list
+
+			Rules (flags: C=Constant, D=Dynamic, E=Enable, L=Log)
+			=====
+			Chain                            Nr.  Flags  Rule name         Action                             Conditions
+			------------------------------------------------------------------------------------------------------------------------------------------
+			sink                             1    CDE                    : link sink_fire                   : *.* > *.*
+							 2    CDE                    : link sink_system_service         : *.* > *.*
+			forward                          1    CDE                    : link forward_multicast           : *.* > *.*
+							 2    CDE                    : link forward_fire                : *.* > *.*
+							 3    CDE                    : link forward_timeofday           : *.* > *.*
+							 4    CDE                    : link forward_host_service        : *.* > *.*
+							 5    CDE                    : link forward_custom              : *.* > *.*
+							 6    CDE                    : link forward_level               : *.* > *.*
+			source                           1    CDE                    : link source_fire                 : *.* > *.*
+							 2    CDE                    : link source_system_service       : *.* > *.*
+			source_fire                      1    C E    AnyTraffic      : accept                           : *.* > *.*
+			sink_system_service              1    CDE                    : accept                           : UPnP-HTTP_sv_in UPnP-HTTP_if_in._ipv4_addr > *.*
+							 2    CDE                    : accept                           : DHCP-R_sv_in DHCP-R_if_in._ipv4_addr > *.*
+							 3    CDE                    : accept                           : DHCPv6-R-C_sv_in DHCPv6-R-C_if_in._ipv6_addr > *.*
+							 4    CDE                    : accept                           : DHCPv6-R-SR_sv_in DHCPv6-R-SR_if_in._ipv6_addr > *.*
+							 5    CDE                    : accept                           : DHCPv6-C_sv_in DHCPv6-C_if_in._ipv6_addr > *.*
+							 6    CDE                    : accept                           : CWMP-S_sv_in *._ipv4_addr > *.*
+							 7    CDE                    : accept                           : MDAP_sv_in MDAP_if_in._ipv4_addr > *.*
+							 8    CDE                    : accept                           : SSDP_sv_in SSDP_if_in._ipv4_addr > *.*
+							 9    CDE                    : accept                           : PPTPD_sv_in PPTPD_if_in._ipv4_addr > *.*
+							 10   CDE                    : accept                           : PPTPGRE_sv PPTPGRE_if_in._ipv4_addr > *.*
+							 11   CDE                    : accept                           : HTTP_sv_in HTTP_if_in._ipv4_addr > *.*
+							 12   CDE                    : accept                           : HTTPs_sv_in HTTPs_if_in._ipv4_addr > *.*
+							 13   CDE                    : accept                           : FTP_sv_in FTP_if_in.* > *.*
+							 14   CDE                    : accept                           : TELNET_sv_in TELNET_if_in.* > *.*
+							 15   CDE                    : accept                           : IGMP-Proxy_sv *._ipv4_addr > *.*
+							 16   CDE                    : accept                           : DNS-S-UDP_sv_in DNS-S-UDP_if_in.* > *.*
+							 17   CDE                    : accept                           : DNS-S-TCP_sv_in DNS-S-TCP_if_in.* > *.*
+							 18   CDE                    : accept                           : DNS-S_sv DNS-S_if_in.* > *.*
+							 19   CDE                    : accept                           : DHCPv6-S_sv_in DHCPv6-S_if_in._ipv6_addr > *.*
+							 20   CDE                    : accept                           : PING_RESPONDER_sv PING_RESPONDER_if_in._ipv4_addr > *.*
+							 21   CDE                    : accept                           : PINGv6_RESP_sv PINGv6_RESP_if_in._ipv6_addr > *.*
+							 22   CDE                    : accept                           : NDSOL_sv *._ipv6_addr > *.*
+							 23   CDE                    : accept                           : NDADV_sv *._ipv6_addr > *.*
+							 24   CDE                    : accept                           : RTSOL_sv RTSOL_if_in._ipv6_addr > *.*
+							 25   CDE                    : accept                           : RTADV_sv *.RTADV_ip_in > *.*
+			forward_level                    1    CDE                    : link forward_level_Pass-through  : *.* > *.*
+			forward_level_BlockAll           1    C E    AnyTraffic      : drop                             : *.* > *.*
+			forward_level_Standard           1    C E    FromLAN         : accept                           : lan.* > *.*
+			forward_level_Disabled           1    C E    AnyTraffic      : accept                           : *.* > *.*
+			forward_level_Pass-through       1    C E    AnyTraffic      : accept                           : *.* > *.*
+
+grp
+hostmgr
+ids
+igmp
+interface
+
+		{Administrator}=>interface list
+		Name          Type                 State            Use  UL Interfaces
+		loop          ip                   connected        0
+		ethif1        physical             connected        1    ethport1
+		ethif2        physical             connected        1    ethport2
+		ethif3        physical             connected        1    ethport3
+		ethif4        physical             connected        1    eth_WAN
+		ethif5        physical             connected        0
+		bridge        eth                  connected        1    LocalNetwork
+		OBC           bridge               connected        1    bridge
+		ethport1      bridge               connected        1    bridge
+		RELAY         eth                  connected        0
+		atm_Internet  atm                  connected        0
+		wlif1         physical             connected        1    WLAN
+		ethport2      bridge               connected        1    bridge
+		ethport3      bridge               connected        1    bridge
+		WLAN          bridge               connected        1    bridge
+		eth_WAN       eth                  connected        1    Internet_ppp
+		Internet_ppp  ppp                  connecting       1    Internet
+		Internet      ip                   not-connected    0
+		LocalNetwork  ip                   connected        0
+
+		{Administrator}=>interface ifstack
+		HL Interface                      LL Interface                     State
+		LocalNetwork                      bridge                           connected
+		bridge                            OBC                              connected
+		bridge                            ethport1                         connected
+		ethport1                          ethif1                           connected
+		bridge                            ethport2                         connected
+		ethport2                          ethif2                           connected
+		bridge                            ethport3                         connected
+		ethport3                          ethif3                           connected
+		bridge                            WLAN                             connected
+		WLAN                              wlif1                            connected
+		Internet_ppp                      eth_WAN                          connecting
+		eth_WAN                           ethif4                           connected
+		Internet                          Internet_ppp                     not-connected
+
+ip
+
+	ip a
+	ip aip
+	ip arpadd
+	ip arpdelete
+	ip arplist
+		{Administrator}=>ip arplist
+		Interface           IP-address             HW-address        Type
+		3   LocalNetwork    81.187.237.84          40:6c:8f:05:8c:d6 DYNAMIC
+	ip auto
+	ip clearifstats
+	ip config
+		{Administrator}=>ip config
+			Forwarding                     enabled
+			Sendredirects                  enabled
+			IP options                     enabled
+			NetBroadcasts                  disabled
+			Random datagram IDs            disabled
+			Default TTL                    64
+			Fraglimit                      64
+			# Fragmented packets           0
+			Defragment mode                enabled
+			Address checks                 dynamic
+			Mss Clamping                   enabled
+			NAT Loopback                   enabled
+			ARP cache timeout              900 sec
+			ARP class                      12
+	ip debug
+	ip e
+	ip flush
+	ip ifadd
+	ip ifattach
+	ip ifconfig
+	ip ifdelete
+	ip ifdetach
+	ip iflist
+		{Administrator}=>ip iflist
+		Interface                            Group  MTU   RX         TX         Admin  Oper
+		1   loop. . . . . . . . . . . . . .  local  65535 412 KB     296 KB     UP     [UP]
+		2   Internet. . . . . . . . . . . .  wan    1492  0          0          DOWN   DOWN
+		3   LocalNetwork. . . . . . . . . .  lan    1500  430 KB     405 KB     UP     [UP]
+	ip ifwait
+	ip ipadd
+	ip ipconfig
+	ip ipdelete
+	ip iplist
+	ip mcast
+	ip n
+	ip nbdelete
+	ip nblist
+		{Administrator}=>ip nblist
+		Flags legend: [P]roxy  [R]outer  [S]tatic  [A]uto-probe  re[D]irected
+
+		neighbour                                      interface        flags state      hw-address
+		---------------------------------------------- ---------------- ----- ---------- -----------------
+	ip nbset
+	ip o
+	ip r
+	ip rt6advd
+	ip rtadd
+	ip rtconfig
+	ip rtdelete
+	ip rtlist
+		{Administrator}=>ip rtlist
+		Label                 Destination Interface        Admin Oper   Mtr         Gateway
+		-----                 ----------- ---------        ----- ----   ---         -------
+				 81.187.237.81/32 loop             UP    [UP]     0
+				 81.187.237.87/32 loop             UP    [UP]     0
+				     127.0.0.1/32 loop             UP    [UP]     0
+			       255.255.255.255/32 loop             UP    [UP]     0
+				 81.187.237.80/29 LocalNetwork     UP    [UP]     0
+				      224.0.0.0/4 LocalNetwork     UP    [UP]     0
+
+		Label                                          Destination Interface        Admin Oper   Mtr                                 Gateway
+		-----                                          ----------- ---------        ----- ----   ---                                 -------
+					     fe80::9e97:26ff:fece:1b14/128 loop             UP    [UP]     0
+							       fe80::1/128 loop             UP    [UP]     0
+								   ::1/128 loop             UP    [UP]     0
+								 fe80::/64 loop             UP    [UP]     0
+								 fe80::/64 LocalNetwork     UP    [UP]     0
+	ip x
+
+
+ipqos
+label
+language
+mbus
+memm
+mld
+mlp
+mobile
+nat
+ppp
+pptp
+printersharing
+ptrace
+pwr
+script
+service
+sntp
+software
+statecheck
+syslog
+system
+tls
+tunnel
+upgrade
+upnp
+user
+wansensing
+webserver
+wireless
+			{Administrator}=>wireless mssid iflist
+			ssid 0/0 : aa.net.uk 19246                    [up] Security: WPA-PSK
+xdsl
