@@ -87,3 +87,16 @@ compile <= runtime <= test
 "provided" - in compile, but not runtime (reasons unclear)
 
 
+
+
+
+mvn dependency:tree -Dverbose=true
+
+dependencyManagement - pinning versions, use sparingly
+
+add the maven enforcer plugin, it'll make the build fail on version conflicts,
+it'll be a big list at first but work through it one by one
+
+in general, do not pin versions of transitive dependencies
+
+otherwise often pin to newest

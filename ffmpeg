@@ -1,3 +1,14 @@
 # Join & trim two MP3s:
 # The '-to' seems to behave oddly... some guesswork currently.
 ffmpeg -f concat -i <(for f in ./201505*.mp3; do echo "file '$PWD/$f'"; done) -c copy -ss 2:04 -to $((20*60+10)) -y out.mp3
+
+(Unencrypted) DVD to mp3 rip
+----------------------------
+Taking a title into two parts and concatenating to form a single mp3 file:
+ffmpeg -i VTS_01_1.VOB -i VTS_01_2.VOB -filter_complex "[0:a:0] [1:a:0] concat=n=2:v=0:a=1 [a]" -map '[a]' -f mp3 -c:v null -c:a libmp3lame -b:a 128k output.mp3
+
+Converting .ts to .mp4, keeping all audio streams
+-------------------------------------------------
+
+ffmpeg -i foo.ts -c copy -map 0:v -map 0:a foo.mp4
+
