@@ -1,0 +1,26 @@
+Find ADB, fx på /Users/rachel/Library/Android/sdk/platform-tools
+
+Vis den ADB Public Key:
+  – "awk '{print $1}' < ~/.android/adbkey.pub | openssl base64 -A -d -a | openssl md5 -c"
+  – det kan bruges i de næste skridte
+
+Forbind over USB:
+  – forbind med kabel
+  – på telefonen, slå USB-fejl "til"
+  – "adb devices" skal vise telefonen
+
+Forbind over TCP:
+  – forbind første over USB
+  – find telefons IP-adresse
+  – bed telefonen at skifte til TCP:
+    – "adb tcp 5555"
+  – forbind over TCP:
+    – "adb connect 192.168.x.x:5555"
+  – "adb devices" skal vise telefonen
+
+Da telefonen er forbindt:
+
+ – "adb logcat"
+ – fra lokal (bærbar) Chrome, gå til konsolen, og find "Remote devices"; valg telefonen
+
+
