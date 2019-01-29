@@ -1,0 +1,11 @@
+3.x
+---
+
+export EASYRSA=$HOME/git/github.com/OpenVPN/easy-rsa/easyrsa3
+export PATH=$EASYRSA:$PATH
+
+export EASYRSA_PKI=$PWD/some-ca-dir
+easyrsa init-pki
+<etc>
+
+easyrsa --days=30 build-client-full tt5-mail-client nopass

@@ -1,0 +1,24 @@
+raspbian
+
+wget https://github.com/lwfinger/rtl8188eu/blob/master/rtl8188eufw.bin?raw=true
+install to /lib/firmware/rtlwifi/
+(not yet in firmware-realtek package)
+
+network={
+         ssid="seednet"
+	 psk="password"
+}
+in /etc/wpa_supplicant/wpa_supplicant.conf
+
+--------
+
+apt-get install lirc
+
+lirc_rpi
+in /etc/modules (unclear if needed)
+
+/etc/lirc/hardware.conf
+DEVICE="/dev/lirc0"
+MODULES="lirc_rpi"
+
+
