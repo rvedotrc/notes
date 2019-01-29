@@ -100,3 +100,13 @@ it'll be a big list at first but work through it one by one
 in general, do not pin versions of transitive dependencies
 
 otherwise often pin to newest
+
+http://www.mojohaus.org/exec-maven-plugin/exec-mojo.html
+mvn -q exec:exec -DclasspathScope=compile -Dexec.executable=/bin/echo -Dexec.args=%classpath | -
+mvn -q exec:exec -DclasspathScope=test -Dexec.executable=/bin/echo -Dexec.args=%classpath | -
+mvn -q exec:exec -DclasspathScope=runtime -Dexec.executable=/bin/echo -Dexec.args=%classpath | -
+default is runtime
+
+
+mvn exec:java -Dexec.mainClass=uk.org.rve.javalearning.Main
+
