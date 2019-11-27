@@ -4,16 +4,24 @@ Vis den ADB Public Key:
   – "awk '{print $1}' < ~/.android/adbkey.pub | openssl base64 -A -d -a | openssl md5 -c"
   – det kan bruges i de næste skridte
 
+Sæt telefonon til udvikler måde, og tillad USB-fejlretning:
+  - tryk syv gange på build-numret
+  – slå System / Udviklere / USB-fejlretning til
+
 Forbind over USB:
   – forbind med kabel
-  – på telefonen, slå USB-fejl "til"
+    - det grå kabel virker ikke - kun magt
+    - de stribede farverige kabler virker godt
+  - tjek, at telefonen-USB er sat til "PTP"
+  - når tilladelse-beskeden vises på telefonen bør nøglen tjekkes imod den ADB
+    Public Key
   – "adb devices" skal vise telefonen
 
 Forbind over TCP:
   – forbind første over USB
   – find telefons IP-adresse
   – bed telefonen at skifte til TCP:
-    – "adb tcp 5555"
+    – "adb tcpip 5555"
   – forbind over TCP:
     – "adb connect 192.168.x.x:5555"
   – "adb devices" skal vise telefonen
